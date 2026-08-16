@@ -52,6 +52,13 @@
             <version>3.1.5.RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.2.0-M2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>spring-mvc-app1</finalName>
