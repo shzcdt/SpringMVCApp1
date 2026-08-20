@@ -14,7 +14,7 @@ public class PeopleController {
     private PersonDAO personDAO;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO){
+    public PeopleController(PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
 
@@ -31,7 +31,7 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person){
+    public String newPerson(@ModelAttribute("person") Person person) {
 
         return "people/new";
     }
@@ -39,6 +39,24 @@ public class PeopleController {
     @PostMapping
     public String create(@ModelAttribute("person") Person person) {
         personDAO.save(person);
+        return "redirect:/people";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("person", personDAO.show(id));
+        return "people/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id){
+        personDAO.update(id, person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        personDAO.delete(id);
         return "redirect:/people";
     }
 }

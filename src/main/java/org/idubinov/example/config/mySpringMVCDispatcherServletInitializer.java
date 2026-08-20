@@ -1,6 +1,9 @@
 package org.idubinov.example.config;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import org.jspecify.annotations.Nullable;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class mySpringMVCDispatcherServletInitializer
@@ -13,6 +16,17 @@ public class mySpringMVCDispatcherServletInitializer
     @Override
     protected Class<?> @Nullable [] getServletConfigClasses() {
         return new Class[] {SpringConfig.class};
+    }
+
+    @Override
+    public void onStartup(ServletContext aServletContext) throws ServletException {
+        super.onStartup(aServletContext);
+        registerHiddenFieldFilter(aServletContext);
+    }
+
+    public void registerHiddenFieldFilter(ServletContext aContext) {
+        aContext.addFilter("hiddenHttpMethodFilter", new HiddenHttpMethodFilter())
+                .addMappingForUrlPatterns(null, true, "/*");
     }
 
     @Override
