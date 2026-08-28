@@ -23,13 +23,11 @@ public class PersonValidator implements Validator {
         return Person.class.equals(clazz);
     }
 
-    @Override
-    public void validate(Object target, Errors errors) {
-        Person person = (Person) target;
+    @Override public void validate(Object o, Errors errors) {
+        Person person = (Person) o;
 
-        // посмотреть есть ли человек с таким же email в БД?
-        if (personDAO.show(person.getEmail()).isPresent()){
-            errors.rejectValue("email", "", "This email is already taken");
+        if (personDAO.getPersonByFullName(person.getFullName()).isPresent()) {
+            errors.rejectValue("fullName", "", "Person with this full name already exists");
         }
     }
 }
