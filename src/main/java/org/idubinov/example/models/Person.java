@@ -1,26 +1,30 @@
 package org.idubinov.example.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
 
+@Entity
+@Table(name = "Person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+", message = "Your full name should be in this format: Ivan Dubinov")
+    @Column(name = "full_name")
     private String fullName;
 
     @Range(min = 1900, max = 2023, message = "Write the correct year of your Birthday")
+    @Column(name = "birth_year")
     private int BirthYear;
 
-
-    // Cтрана, Город, Индекс (6 цифр)
-    // @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Your address should be in this format: Country, City, Postal code (6 digits )")
     public Person() { }
 
-    public Person(int id, String name, int birthYear) {
-        this.id = id;
+    public Person(String name, int birthYear) {
         this.fullName = name;
         this.BirthYear = birthYear;
     }
