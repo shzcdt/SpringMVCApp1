@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -26,29 +25,54 @@ public class PersonDAO {
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createQuery("select p from Person p", Person.class).getResultList();
+        return session.createQuery("SELECT p FROM Person p", Person.class)
+                .getResultList();
     }
 
+    @Transactional(readOnly = true)
     public Person show(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.find(Person.class, id);
     }
 
+    @Transactional
     public void save(Person person) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(person);
     }
 
+    @Transactional
     public void update(int id, Person updatedPerson) {
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.find(Person.class, id);
 
+        person.setBirthYear(updatedPerson.getBirthYear());
+        person.setFullName(updatedPerson.getFullName());
+        person.setBooks(updatedPerson.getBooks());
     }
 
+    @Transactional
     public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Person removePerson = session.find(Person.class, id);
+
+        session.remove(removePerson);
     }
 
-    public Optional<Person> getPersonByFullName(String fullName) {
-        return null;
+    @Transactional
+    public Person getPersonByFullName(String fullName) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createQuery("FROM Person p WHERE p.full_name = :nameParam", Person.class)
+                .setParameter("nameParam", fullName)
+                .uniqueResult();
     }
 
+    @Transactional
     public List<Book> getBooksByPersonId(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.find(Person.class, id);
+
+        return person.getBooks();
     }
 }

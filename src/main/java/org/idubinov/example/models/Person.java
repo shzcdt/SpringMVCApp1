@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -22,7 +24,11 @@ public class Person {
     @Column(name = "birth_year")
     private int BirthYear;
 
-    public Person() { }
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    public Person() {
+    }
 
     public Person(String name, int birthYear) {
         this.fullName = name;
@@ -51,5 +57,17 @@ public class Person {
 
     public void setBirthYear(int birthYear) {
         BirthYear = birthYear;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+
+        for (Book book : books){
+            book.setOwner(this);
+        }
     }
 }
