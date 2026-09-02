@@ -62,8 +62,7 @@ public class PersonDAO {
     @Transactional
     public Person getPersonByFullName(String fullName) {
         Session session = sessionFactory.getCurrentSession();
-
-        return session.createQuery("FROM Person p WHERE p.full_name = :nameParam", Person.class)
+        return session.createQuery("FROM Person p WHERE p.fullName = :nameParam", Person.class)
                 .setParameter("nameParam", fullName)
                 .uniqueResult();
     }
@@ -73,6 +72,8 @@ public class PersonDAO {
         Session session = sessionFactory.getCurrentSession();
         Person person = session.find(Person.class, id);
 
-        return person.getBooks();
+        List<Book> books = person.getBooks();
+
+        return books;
     }
 }
