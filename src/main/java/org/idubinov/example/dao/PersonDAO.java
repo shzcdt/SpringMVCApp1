@@ -49,7 +49,6 @@ public class PersonDAO {
 
         person.setBirthYear(updatedPerson.getBirthYear());
         person.setFullName(updatedPerson.getFullName());
-        person.setBooks(updatedPerson.getBooks());
     }
 
     @Transactional
