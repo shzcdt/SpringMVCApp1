@@ -1,5 +1,6 @@
 package org.idubinov.example.dao;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.idubinov.example.models.Book;
@@ -71,9 +72,8 @@ public class PersonDAO {
     public List<Book> getBooksByPersonId(int id) {
         Session session = sessionFactory.getCurrentSession();
         Person person = session.find(Person.class, id);
+        Hibernate.initialize(person.getBooks());
 
-        List<Book> books = person.getBooks();
-
-        return books;
+        return person.getBooks();
     }
 }
