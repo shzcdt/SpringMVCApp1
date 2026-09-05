@@ -1,6 +1,5 @@
 package org.idubinov.example.controllers;
 
-import org.idubinov.example.dao.PersonDAO;
 import org.idubinov.example.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

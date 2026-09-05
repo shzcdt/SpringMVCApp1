@@ -2,7 +2,6 @@ package org.idubinov.example.controllers;
 
 import jakarta.validation.Valid;
 import org.idubinov.example.dao.BookDAO;
-import org.idubinov.example.dao.PersonDAO;
 import org.idubinov.example.models.Book;
 import org.idubinov.example.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
